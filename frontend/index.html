@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Digital Watermarking Tool</title>
+  <style>body{font-family:Arial,sans-serif;max-width:780px;margin:24px auto;padding:0 12px}fieldset{margin:14px 0;padding:12px}</style>
+</head>
+<body>
+  <h1>Digital Watermarking Tool</h1>
+  <fieldset>
+    <legend>Embed</legend>
+    <input id="embedFile" type="file" accept="image/*" />
+    <input id="embedMsg" placeholder="Watermark message" />
+    <button id="embedBtn">Embed</button>
+    <p><a id="downloadLink" style="display:none">Download watermarked image</a></p>
+  </fieldset>
+
+  <fieldset>
+    <legend>Extract</legend>
+    <input id="extractFile" type="file" accept="image/*" />
+    <button id="extractBtn">Extract</button>
+    <pre id="extractOut"></pre>
+  </fieldset>
+
+  <script type="module" src="./src/app.js"></script>
+</body>
+</html>

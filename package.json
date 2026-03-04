@@ -1,0 +1,10 @@
+{
+  "name": "digital-watermarking-tool",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "sh scripts/dev.sh",
+    "dev:backend": "npm --prefix backend run dev",
+    "dev:frontend": "npx serve frontend -l 5173"
+  }
+}
