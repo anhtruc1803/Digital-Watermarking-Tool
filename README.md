@@ -126,11 +126,21 @@ Error (ví dụ):
 
 ---
 
-## 🗺️ Roadmap đề xuất
+## 🗺️ Roadmap kỹ thuật 2 phase (anti-crop)
 
-- [ ] Thêm CRC/ECC cho payload chống lỗi bit.
+### Phase 1 — Đã triển khai (LSB nâng cao)
+- Packet watermark có cấu trúc `MAGIC + length + CRC32 + message`.
+- Nhúng lặp theo nhiều vị trí trên nhiều hàng ảnh (redundancy).
+- Extract quét theo hàng, tìm packet hợp lệ bằng MAGIC + CRC và chọn kết quả theo majority.
+- Mục tiêu: tăng khả năng sống sót khi crop nhẹ/không đều.
+
+### Phase 2 — Kế hoạch triển khai tiếp (robust watermark)
+- Chuyển sang watermark miền tần số (DCT/DWT).
+- Kết hợp ECC (Reed-Solomon/BCH) để sửa lỗi mạnh hơn sau crop/resize/nén JPEG.
+- Tối ưu benchmark theo các phép tấn công ảnh phổ biến.
+
+### Hạng mục mở rộng khác
 - [ ] Thêm ký số payload để xác thực bản quyền.
-- [ ] Triển khai DCT/DWT cho độ bền watermark cao hơn.
 - [ ] Thêm auth + user management.
 - [ ] Thêm storage abstraction (local/S3).
 - [ ] Viết integration tests cho embed/extract.

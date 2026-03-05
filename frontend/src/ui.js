@@ -16,10 +16,11 @@ function previewFile(file, imgEl) {
   imgEl.src = url;
 }
 
-async function apiEmbed(file, message) {
+async function apiEmbed(file, message, algo) {
   const fd = new FormData();
   fd.append('image', file);
   fd.append('message', message);
+  fd.append('algo', algo);
   const res = await fetch(`${API}/embed`, { method: 'POST', body: fd });
   if (!res.ok) {
     let error = 'Embed failed';
@@ -32,9 +33,10 @@ async function apiEmbed(file, message) {
   return await res.blob();
 }
 
-async function apiExtract(file) {
+async function apiExtract(file, algo) {
   const fd = new FormData();
   fd.append('image', file);
+  fd.append('algo', algo);
   const res = await fetch(`${API}/extract`, { method: 'POST', body: fd });
   const json = await res.json();
   if (!res.ok) throw new Error(json?.error || 'Extract failed');
@@ -45,6 +47,7 @@ export function bindUI() {
   const embedFile = $('embedFile');
   const embedMsg = $('embedMsg');
   const embedBtn = $('embedBtn');
+  const algoSelect = $('algoSelect');
   const embedStatus = $('embedStatus');
   const embedPreview = $('embedPreview');
   const downloadLink = $('downloadLink');
@@ -69,7 +72,7 @@ export function bindUI() {
     setStatus(embedStatus, 'Đang nhúng watermark...');
 
     try {
-      const blob = await apiEmbed(file, message);
+      const blob = await apiEmbed(file, message, algoSelect.value);
       const url = URL.createObjectURL(blob);
       downloadLink.href = url;
       downloadLink.download = 'watermarked.png';
@@ -93,7 +96,7 @@ export function bindUI() {
     extractBtn.disabled = true;
     setStatus(extractOut, 'Đang đọc watermark...');
     try {
-      const json = await apiExtract(file);
+      const json = await apiExtract(file, algoSelect.value);
       setStatus(extractOut, JSON.stringify(json, null, 2), 'ok');
     } catch (e) {
       setStatus(extractOut, `Lỗi: ${e.message}`, 'err');

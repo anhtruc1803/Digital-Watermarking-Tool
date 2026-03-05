@@ -12,7 +12,7 @@
     .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
     .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px}
     label{display:block;margin:.6rem 0 .35rem;color:var(--muted);font-size:14px}
-    input,button,textarea{width:100%;padding:10px;border-radius:10px;border:1px solid var(--line);background:#0f1528;color:var(--txt)}
+    input,button,textarea,select{width:100%;padding:10px;border-radius:10px;border:1px solid var(--line);background:#0f1528;color:var(--txt)}
     textarea{min-height:88px;resize:vertical}
     button{background:linear-gradient(135deg,#3c7cff,#5aa1ff);border:none;font-weight:700;cursor:pointer}
     button:disabled{opacity:.6;cursor:not-allowed}
@@ -35,6 +35,12 @@
         <label>Ảnh đầu vào</label>
         <input id="embedFile" type="file" accept="image/png,image/*" />
         <img id="embedPreview" class="thumb" alt="embed preview" />
+
+        <label>Thuật toán</label>
+        <select id="algoSelect">
+          <option value="lsb_v2">lsb_v2 (Phase 1 - anti-crop improved)</option>
+          <option value="dct_v1">dct_v1 (Phase 2 - planned)</option>
+        </select>
 
         <label>Nội dung watermark</label>
         <textarea id="embedMsg" placeholder="Ví dụ: Rin - Copyright 2026"></textarea>
