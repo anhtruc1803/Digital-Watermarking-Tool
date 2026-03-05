@@ -10,8 +10,16 @@ function msgToBits(message) {
 }
 
 function bitsToMsg(bits) {
+  if (!bits || bits.length < 32) throw new Error('No valid watermark found');
+
   let len = 0;
   for (let i = 0; i < 32; i++) len = (len << 1) | bits[i];
+
+  const availableBytes = Math.floor((bits.length - 32) / 8);
+  if (len < 0 || len > availableBytes || len > 8192) {
+    throw new Error('No valid watermark found');
+  }
+
   const bytes = Buffer.alloc(len);
   let offset = 32;
   for (let bi = 0; bi < len; bi++) {
@@ -19,7 +27,10 @@ function bitsToMsg(bits) {
     for (let i = 0; i < 8; i++) b = (b << 1) | bits[offset++];
     bytes[bi] = b;
   }
-  return bytes.toString('utf8');
+
+  const out = bytes.toString('utf8');
+  if (!out.trim()) throw new Error('No valid watermark found');
+  return out;
 }
 
 export async function embedLSB(imageBuffer, message) {

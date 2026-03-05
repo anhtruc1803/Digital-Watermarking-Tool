@@ -9,13 +9,21 @@ Monorepo gồm frontend + backend cho công cụ nhúng/đọc watermark trong �
 
 ## Quick start
 ```bash
-# backend
-cd backend && npm install && npm run dev
+# Terminal 1: backend
+cd backend
+npm install
+npm run dev
 
-# frontend (terminal khác)
-cd frontend && npx serve . -l 5173
+# Terminal 2: frontend
+cd frontend
+npx serve . -l 5173
 ```
 
 Mở:
 - Frontend: `http://localhost:5173`
 - Backend: `http://localhost:3000`
+
+## Lưu ý demo
+- Thuật toán hiện tại: LSB trên kênh Red của PNG.
+- Ảnh quá nhỏ có thể không đủ chỗ nhúng message (sẽ báo lỗi `Message too long for this image`).
+- Dùng PNG sẽ ổn định nhất cho test embed/extract.

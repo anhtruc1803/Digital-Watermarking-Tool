@@ -11,7 +11,12 @@ r.post('/embed', uploadSingle, async (req, res, next) => {
     const out = await embedWatermark(req.file.buffer, message);
     res.setHeader('Content-Type', 'image/png');
     res.send(out);
-  } catch (e) { next(e); }
+  } catch (e) {
+    if ((e?.message || '').includes('Message too long')) {
+      return res.status(400).json({ error: e.message });
+    }
+    next(e);
+  }
 });
 
 r.post('/extract', uploadSingle, async (req, res, next) => {
@@ -19,7 +24,12 @@ r.post('/extract', uploadSingle, async (req, res, next) => {
     if (!req.file) return res.status(400).json({ error: 'image is required' });
     const message = await extractWatermark(req.file.buffer);
     res.json({ message });
-  } catch (e) { next(e); }
+  } catch (e) {
+    if ((e?.message || '').includes('No valid watermark')) {
+      return res.status(400).json({ error: e.message });
+    }
+    next(e);
+  }
 });
 
 export default r;
